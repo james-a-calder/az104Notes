@@ -1,11 +1,40 @@
 # AZ-104 Notes
+## Contents
+ToDo: Add Contents with links here
 
 ## Day 0
-
 Instructor: Greg Lojek
 <br/>
 Teams meeting link: https://tinyurl.com/368f25nz
 
+**Lessons start time:** 8am
+
+**Decision cutoffs for if you want to take your exam**
+AZ-104 - Wednesday
+AZ-305 - Saturday (If you have passed AZ-104)
+
+**Test Day**
+AZ-104 Thursday 12-1pm~
+AZ-305 - Sunday 12-1pm~
+
+**Tips**
+You need to know both the powershell & bash use of the CLI
+
+**Training Schedule**
+- Monday
+  - Identity
+  - Governance
+  - Azure Resource Manager
+- Tuesday
+  - Networks
+- Wednesday
+  - Storage
+  - Virtual Machines
+  - Admin PaaS
+  - Data Protection & Monitoring
+- Thursday
+  - Final exam prep
+  - Exam
 
 ## Day 1
 
@@ -204,5 +233,235 @@ Identity > Groups > Sharepoint/Teams Groups > Access control
 **Assign Licenses to Users and Groups**
 
 **Create Administrative Units**
+
+**Entra ID Connect**
+Used for connecting (Syncing) AD with Entra ID
+You can install it on a domain controller but it is not recommended, you should use a different app server for it.
+
+On prem AD is the driver of this and it generally it works on a 30 min sync (you can force it in powershell).
+
+AD is a repository of classes and attributes.
+
+If certain things occur where AD does not have a schema for a app but they do exist in Entra you can get issues where you can't push attributes that are not in AD. You can push them via powershell scripts
+
+Password policies can differ between to two:
+**Password Hash Synchronization (PHS)** is the option that alow the sync of these. Default config is to have this on. This sync is within 2 mins.
+
+P1 you can enable password writeback, this means you can enable PSSR on Entra and write it back to the local AD.
+Group and device writeback are also in P1.
+
+P2 contains Entra Identity Protection which also includes leaked credentials. It scans parts of the web to see if any compromised password hashes you will be notified.
+
+**Passthrough Authentication (PTA)**
+This means only Entra ID is used stored in the sync. An agent will be installed in the local AD (minimum of 3 is recommended). When a user wants to sign in they credentials end up on a secure Entra queue a secure connection is obtained between Entra and the Entra-agent and it then authenticates them.
+
+4 status that a authentication result can be
+False, True, Expired & Locked out
+
+You can't do Leaked Credentials on a PTA instance as the hashes are not stored to check.
+
+Disadvantage is that if the connection is broken users can not authenticate.
+Advantage is that no credentials are stored elsewhere.
+
+**Federated ID**
+Requires a federation server/service - responsible for authenticated federation ids with AD.
+Requires a service between the Internet and Domain. WAP (Web Application Proxy)
+
+User > Internet > WAP > Federation Service > Domain Controller
+
+Disadvantages
+- Cost
+  - Requires additional licenses for Federation and Proxy services. Needs to be highly available so more than one instance
+  - Fault Domain: In virtualization it's where we deploy multiple services on separate VMs on the same box. So to protect against this you need more than one physical server to remove single point of failure.
+  - Additional connections
+- Complexity
+
+Advantages
+- Create trusts between different federation servers (for example in a partnership) meaning that users can sign into domain 1 using credentials for domain 2 rather than having multiple sets of credentials.
+- Use of third party federations like Google, facebook etc to authenticate with these credentials rather than needing explicit ones.
+- Supports SSO
+
+
+There are two type of Entra syncs (https://learn.microsoft.com/en-us/entra/identity/hybrid/cloud-sync/what-is-cloud-sync)
+
+- Connect Sync: is the full sync option
+- Cloud Sync: Uses lightweight agent and the engine runs in azure, doesn't support pass through, device types and a few other things.
+
+**Administration Unit Definition**
+An Administration unit refers to a team or department within an organization that manages and oversees the implementation, management, and monitoring of Microsoft Azure services. This unit is responsible for ensuring that the Azure environment is configured, secured, and optimized to meet the organization's needs.
+
+**Entra User Types Definitions**
+Microsoft Entra (formerly known as Azure Active Directory) has different user types to manage access and permissions. Here are the main user types you should be familiar with:
+
+Member Users: These are internal users within your organization. They have full access to all resources and services within the organization's directory1.
+
+Guest Users: These are external users from other organizations or identity providers. They have limited access compared to member users and are often used for collaboration purposes1.
+
+External Members: Similar to guest users, but with member-level access to resources in your organization. This is common in multi-tenant environments1.
+
+Service Principals: These are non-human identities used by applications or services to access resources in Entra. They are often used for automated processes and integrations.
+
+#### Governance & Compliance
+**Regions**
+- A region represents a collection of datacentres
+- Provides flexibility and scale
+- Preserves data residency
+- Select regions close to your users
+- Be aware of region deployment availability
+- There are global services that are region independent
+- Regions are paired for high availability
+
+Not every service is available in every region.
+Useful site to see and compare service availability across regions (https://azurecharts.com/regions)
+
+SLAs (https://azurecharts.com/sla)
+
+Azure Latency Test (https://www.azurespeed.com/Azure/Latency)
+
+Availability zones, number of data centres (capped at 3, if more data centres in the reason you will only see 3 in the documentation) within the region. At least 300 miles apart.
+
+Azure Datacentre globe (https://datacenters.microsoft.com/globe/)
+
+Azure Pricing Calculator (https://azure.microsoft.com/en-gb/pricing/calculator)
+
+There are options to make a price cheaper like Saving plans if you commit to a spend, reservations if you need 24/7 uptime.
+You also have the option to use Azure Hybrid benefit which alow you to use licenses you already own rather than purchasing the license in the price.
+
+Implement Azure Subscriptions
+- Only identities in Azure AD, or a directory that is trusted by Azure AD, can create subscriptions
+- Logical unit of Azure services that is linked to an Azure account
+- Security & billing boundary*
+
+Most Common Subscription types:
+- Free: Includes a $200 credit for the first 30 days, free limited access thereafter for 12 months.
+- Pay-as-you-go: Charges you monthly
+- CSP: Agreement with possible discounts through a Microsoft Cloud Solutions Provider Partner - typically for small to medium businesses
+- Enterprise: One agreement, with discount for new licenses and Software Assurance - targeted at enterprise-scale organisations
+- Student: Includes $100 for 12 months - Mist verify student access
+
+Full list (https://azure.microsoft.com/en-us/support/legal/offer-details/?msockid=39d2d407474064f71006c12a463f657f)
+
+Microsoft advisor will make recommendations to help save costs. It also makes reliability and other type of recommendations.
+
+**Manage Costs**
+put notes from slides here
+
+**Determine Service Limits & Quotas**
+- Resources have a default limit (A subscription quota)
+- Helpful to track current usage, and plan for future use
+- You can open a free support case to increase limits to published maximums
+
+Azure offers something called a spot discount with options to evict a resource if the capacity in the region is exceeded or if a cost quota set has been exceeded.
+
+**Management Groups**
+- Management groups provide a level of scope **above** subscriptions
+- Target policies and spend budgets across subscriptions and inheritance down the hierarchies
+- Implement compliance and cost reporting by organization (business/teams)
+
+*To prevent changes, apply resource locks at the subscription, resource group, or resources level.
+
+Root Management Group > Management Group/Subscription, and so on... (Up to 6 levels below root (7 in total))
+
+Due to the nature of them being used to manage subscriptions they do not make sense if you only have one subscription.
+
+**Review Resource Manager Benefits**
+- Provides a consistent management level
+- Enables you to work with the resources in your solution as a group
+- Deploy update or delete in a single, coordinated operation
+- Provides security, auditing, and tagging features
+- Choose the tools and APIs that work best for you
+
+**Azure Resource Terminology**
+- A Resource is simply a single service instance in Azure
+- A Resource group is a logical grouping of resources
+- An Azure Resource Manager template is a JSON file that allows you to declaratively describe a set of resources
+- A declarative syntax is what a template uses to state what you intend to create
+- A resource provider is a service that supplies the resource you can deploy and manage through Resource Manager
+
+**Create Resource Groups**
+- Resources can only exist in one group
+- Groups can have resources of many different types (services) and form many different regions
+- **Groups cannot be renamed or nested**
+- You can move resources between groups
+
+When you create a resource the first thing you will be asked is which resource group should the resource belong to. By default it will take the resource groups location but it can be different.
+
+**Create Resource Manager Locks**
+- Associate the lock with a subscription, resource group, or resources
+- Locks are inherited by child resources
+- Read-only lock prevent changes to the resources
+- Delete locks prevent deletion
+
+**Apply Resource Tags**
+- Provides metadata for your Azure resources
+- Logically organise resources
+- Consists of name-value pair
+- Very useful for rolling up billing information
+
+#### Azure Policies
+
+- A service to create, assign and manage policies
+- Runs evaluation and scans for non-compliant resources
+- Advantages:
+  - Enforcement and compliance
+  - Apply policies at scale
+  - Remediation
+- Use cases:
+  - Allowed resource types - Specify the resource types that your organisation can deploy
+  - Allowed virtual machine SKUs (Stocking units) - Specify a set of virtual machine SKUs that your organisation can deploy
+  - Allowed locations - Restrict the locations your organisations can specify when deploying resources
+  - Require tag and its value - Enforce a required tag and its value
+  - Azure backup should be enabled for Virtual Machines - Audit if Azure Backup service is enabled for all Virtual machines
+
+Policies generally start 5 mins after being applied and should take an hour but have 24 hours to evaluate.
+Sometimes remediation tasks can solve policy compliance issues but in others it will need manual intervention
+
+You can use policy initiatives to apply a group of policies as a package
+
+#### Role Based Access Control (RBAC)
+RBAC roles provide fine-grained access management
+
+| Azure RBAC Roles | Azure AD roles |
+| ---------------- | -------------- |
+| Manage access to Azure resources | Manage access to Azure AD objects |
+| Scope can be specified at multiple levels | Scope is at the tenant level |
+| Role information can be accessed in the azure portal, Azure CLI, Azure Powershell, ARM templates, Rest API | Role information can be accessed in Azure portal, Microsoft 365 Admin portal, Microsoft Graph, Azure Active Directory, Powershell, Or Graph |
+
+There are many built-in roles, or you can create your own custom role.
+
+There are Actions and DataActions to alow granular configuration between a action to the resource and an action to the data within it.
+
+***Insert Azure RBAC Roles here***
+
+### Configure Azure Resources
+**Tools**
+- Azure Portal
+- Azure Cloud Shell
+- PowerShell
+
+PowerShell workflow is a feature introduced in PowerShell 3.0 that allows you to create long-running, persistent tasks that can run across multiple systems and recover from interruptions.
+
+`Get-Module -ListAvailable`
+
+Questions will be on most common used commands but most questions are fairly obvious rather than needing to know the command library.
+
+**Using Cloud Shell**
+- Interactive, browser-accessible shell
+- Offers wither Bash or PowerShell
+- Is temporary and provided on a per-session, per-user basis
+More to add
+
+**ARM Templates**
+- Improves consistency and promotes reuse
+- Reduce manual, error prone and repetitive tasks
+- Express complex deployments
+- Express requirements through code
+- Provide validation tasks
+- Modular and can be linked
+- Simplifies orchestration
+
+Link to quickstart templates (https://learn.microsoft.com/en-us/samples/browse/?expanded=azure&products=azure-resource-manager)
+
+You can **Decompile** ARM into -> ARM JSON
 
 
