@@ -344,7 +344,12 @@ Full list (https://azure.microsoft.com/en-us/support/legal/offer-details/?msocki
 Microsoft advisor will make recommendations to help save costs. It also makes reliability and other type of recommendations.
 
 **Manage Costs**
-put notes from slides here
+- Costs are resource-specific
+- Usage costs vary between locations
+- Costs for inbound and outbound data transfers differ
+- Pre-pay with Azure reserved instances.
+- Use your on-premises licenses with Azure hybrid Benefit
+- Optimise with alerts, budgets and Azure Advisor recommendations
 
 **Determine Service Limits & Quotas**
 - Resources have a default limit (A subscription quota)
@@ -427,11 +432,32 @@ RBAC roles provide fine-grained access management
 | Scope can be specified at multiple levels | Scope is at the tenant level |
 | Role information can be accessed in the azure portal, Azure CLI, Azure Powershell, ARM templates, Rest API | Role information can be accessed in Azure portal, Microsoft 365 Admin portal, Microsoft Graph, Azure Active Directory, Powershell, Or Graph |
 
-There are many built-in roles, or you can create your own custom role.
+**Implement Role-Based Access Control**
+- Provides fine-grained access management of resources in Azure
+  - Buil on Azure Resource Manager
+  - Segregate duties within your team
+  - Grant only the amount of access that a user needs to perform their job
+- Concepts
+  - Security Principal - Object that represents something that is requesting access to resources.
+  - Role definition - Collection of permissions that lists the operations that can be performed.
+  - Scope - Boundary for the level of access that is requested.
+  - Assignment - Attaching a role definition to a security principal at a particular scope:
+    - Users can grant access described in a role definition by creating an assignment
+    - Deny assignments are currently read-only and are set by Azure Blueprints and Azure Managed Apps
 
+There are many built-in roles, or you can create your own custom role.
 There are Actions and DataActions to alow granular configuration between a action to the resource and an action to the data within it.
 
-***Insert Azure RBAC Roles here***
+**Default Azure RBAC Roles**
+| RBAC role in Azure | Permissions | Notes |
+| --------- | ----------- | --------|
+| Owner | Has full access to all resources and can delegete access to others | The Service Administrator and Co-Administrators are assigned the Owner role ath the subscription scope. This applies to all resource types |
+| Contributor | Creates and manages all types of Azure resources but cannot grant access to others | This applies to all resource types |
+| Reader | View Azure resources | This applies to all resource types |
+| User Access Administrator | Manages user access to Azure resources | This applies to managing access, rather than managing resources|
+
+**Create a role assignment**
+The process of binding a definition to a User, Group or Service Principal at a scope for the purpose of granting access.
 
 ### Configure Azure Resources
 **Tools**
@@ -449,7 +475,11 @@ Questions will be on most common used commands but most questions are fairly obv
 - Interactive, browser-accessible shell
 - Offers wither Bash or PowerShell
 - Is temporary and provided on a per-session, per-user basis
-More to add
+- Requires a resource group, storage account, and Azure file share.
+- Authenticates automatically
+- Integrated grapghical text editior, accessed via a button at the top or the `code filename` command.
+- Is assigned one machine per user account
+- Times out after 20 minutes idle
 
 **ARM Templates**
 - Improves consistency and promotes reuse
@@ -462,6 +492,12 @@ More to add
 
 Link to quickstart templates (https://learn.microsoft.com/en-us/samples/browse/?expanded=azure&products=azure-resource-manager)
 
-You can **Decompile** ARM into -> ARM JSON
+**Azure Bicep**
+- Simpler syntax for writing templates
+- Smaller module files you can reference from a main template
+- Automatically detect dependencies between your resources
+- VS Code extension with validation and InteliSense
 
+You can **Decompile** Bicep into -> ARM JSON
+'Compiled' Bicep is actually ARM JSON that is then processed through the Azure Resource Manager
 
