@@ -1,67 +1,6 @@
-# AZ-104 Notes
-## Contents
-ToDo: Add Contents with links here
+# AZ-104 - Day 0 (Identity, Governance & Compliance, and Azure Resource Manager (ARM))
 
-## Day 0
-Instructor: Greg Lojek
-<br/>
-Teams meeting link: https://tinyurl.com/368f25nz
 
-**Lessons start time:** 8am
-
-**Decision cutoffs for if you want to take your exam**
-AZ-104 - Wednesday
-AZ-305 - Saturday (If you have passed AZ-104)
-
-**Test Day**
-AZ-104 Thursday 12-1pm~
-AZ-305 - Sunday 12-1pm~
-
-**Tips**
-You need to know both the powershell & bash use of the CLI
-
-**Training Schedule**
-- Monday
-  - Identity
-  - Governance
-  - Azure Resource Manager
-- Tuesday
-  - Networks
-- Wednesday
-  - Storage
-  - Virtual Machines
-  - Admin PaaS
-  - Data Protection & Monitoring
-- Thursday
-  - Final exam prep
-  - Exam
-
-## Day 1
-
-### SkillUp Labs
-
-URL: https://firebrand-uk.learnondemand.net/Class/645637
-<br/>
-Username: Deloitte Email
-<br/>
-Password: Pa$$w0rd
-
-- Labs are valid for 6 months.
-- You have 10 attempts for each lab.
-- Each session has an expiration time so keep an eye on the timer. There will be a popup warning when the time nears, you will have a option to extend your session if needed.
-- Labs can not be saved midway through.
-
-If you get a dropout there is a button at the top with a reconnect option to refresh the RDP connection
-If no Internet access then click the lightning log and click reset Internet gateway
-If it totally fails contact the support on the portal to log the issue
-
-In the instructions tab, tick off the steps as you go. This tells you how long is left and also acts as a bookmark if the machine has to be rebooted.
-
-The cleanup resources task do not need to be run if it is using the lab's VM as the subscription gets auto scrubbed on ending the lab. These instructions are for those using their own subscriptions.
-
-It is not possible to copy paste. If you need to copy paste, you can click on the lightning bolt go to copy text and select copy clipboard text to open a dialog box you can paste into
-
-**Confirm in teams meeting when you have completed the lab.**
 
 ### Administer Identity
 Q: What is the difference between Office 365 and Microsoft 365?
@@ -323,6 +262,8 @@ Availability zones, number of data centres (capped at 3, if more data centres in
 Azure Datacentre globe (https://datacenters.microsoft.com/globe/)
 
 Azure Pricing Calculator (https://azure.microsoft.com/en-gb/pricing/calculator)
+
+**Prices of resources varies by region**
 
 There are options to make a price cheaper like Saving plans if you commit to a spend, reservations if you need 24/7 uptime.
 You also have the option to use Azure Hybrid benefit which alow you to use licenses you already own rather than purchasing the license in the price.
