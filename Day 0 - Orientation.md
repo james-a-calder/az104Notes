@@ -20,6 +20,7 @@ AZ-305 - Saturday (If you have passed AZ-104)
 ## Tips
 - You need to know both the PowerShell & CLI/Bash ways of using the command line. You do not need to know every command, just generally how to use it and to be able to spot obvious syntax errors.
 - **Read the question thoroughly**. Some questions are worded to trip you up if you speed read them.
+- If the exam once oe answer but two answers are correct. Check there are no requirements in the question that make an option invalid. If there is not always opt for the cheapest.
 
 ## Training Schedule
 - Monday
@@ -34,6 +35,7 @@ AZ-305 - Saturday (If you have passed AZ-104)
   - Admin PaaS
   - Data Protection & Monitoring
 - Thursday
+  - Backups
   - Final exam prep
   - Exam
 

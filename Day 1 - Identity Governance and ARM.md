@@ -20,6 +20,30 @@ The biggest differences we need to know about for this course is: for Office 365
 - Plan 1 (E3)
 - Plan 2 (E5)
 
+#### Key Differences Between Entra Plan 1 and Plan 2
+
+The key differences between **Microsoft Entra Plan 1 (formerly Azure Active Directory P1)** and **Microsoft Entra Plan 2 (formerly Azure Active Directory P2)** primarily revolve around the advanced features and capabilities they offer. Here's a comparison:
+
+| Feature | Entra Plan 1 (P1) | Entra Plan 2 (P2) |
+|---------|-------------------|-------------------|
+| **Conditional Access** | Yes | Yes |
+| **Role-Based Access Control (RBAC)** | Yes | Yes |
+| **Advanced Group Management** | Yes | Yes |
+| **Cross-Tenant Synchronization** | Yes | Yes |
+| **Session Lifetime Management** | Yes | Yes |
+| **Global Password Protection** | Yes | Yes |
+| **Identity Protection** | No | Yes |
+| **Risk-Based Conditional Access** | No | Yes |
+| **Privileged Identity Management** | No | Yes |
+| **Access Reviews** | No | Yes |
+| **Application Insights** | No | Yes |
+| **Audit Logs** | Limited | Comprehensive |
+
+**Entra Plan 1** is suitable for organizations looking for a robust identity management solution with essential features like conditional access, RBAC, and advanced group management.
+
+**Entra Plan 2**, on the other hand, is designed for organizations with more advanced security needs and regulatory requirements. It includes all the features of Plan 1, plus additional capabilities like identity protection, risk-based conditional access, privileged identity management, access reviews, application insights, and comprehensive audit logs.
+
+
 To help with ever chaining Microsoft ecosystem there is a place where name changes are published. In the exam the newest branding should always be used which for those experienced may struggle with if they are not fully up to date with name changes.
 
 Microsoft product name changes: https://m365maps.com/renames.htm
@@ -31,13 +55,13 @@ There is also a useful link here that describes the differences between Microsof
 Domain controller
 
 AD Database
-sysval folder?
+SYSVOL folder
 
-Authentication
-Authorization
-Auditing
-Accounting
-something else
+- Authentication
+- Authorization
+- Accounting
+- Auditing
+- Administration
 
 user@domain.com is a UPN - User Principal Name: They can look like email addresses but only become so if linked to exchange
 
