@@ -238,7 +238,7 @@ Officially available but not recommended directly.
 You can resize an existing VM but only within its current family
 
 **Spot Virtual Machines**
-insert def here
+An Azure Spot Virtual Machine allows you to take advantage of unused Azure compute capacity at a significant discount, up to 90% off the pay-as-you-go prices. Here are some key points about Spot Virtual Machines.
 
 ### Operating System
 There are pages upon pages of operating systems available. You can also create your own byt getting your VM in the state you want and then using sys prep to generalise and then create an image with it.
