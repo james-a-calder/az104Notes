@@ -1,10 +1,15 @@
 # AZ-104 - Day 0 (Identity, Governance & Compliance, and Azure Resource Manager (ARM))
+## Identity
 
+## Administer Identity with Entra
 
+### Benefits & Features
+- A cloud-based suite of identity managemetn capabiliteis that enables you to securely manage access to Azure services and resources for your users
+- Provides application management, authentication, device management and hybrid identity
+![Entra Benefits & Features](Screenshots/Day1/Entra1.PNG)
 
-### Administer Identity
-Q: What is the difference between Office 365 and Microsoft 365?
-A: There are lots of differences such as:
+**Q:** What is the difference between Office 365 and Microsoft 365?<br/>
+**A:** There are lots of differences such as:
 - Information protection plans.
 - **Different Entra plans**.
 - Intune is not in Office 365.
@@ -14,13 +19,15 @@ A: There are lots of differences such as:
 - Microsoft Purview
   - Adaptive Protection.
 
-A full breakdown of differences can be found here: https://go.microsoft.com/fwlink/?linkid=2139145&clcid=0x409&culture=en-us&country=us
+[A full breakdown of differences can be found here 📎](https://go.microsoft.com/fwlink/?linkid=2139145&clcid=0x409&culture=en-us&country=us)
 
-The biggest differences we need to know about for this course is: for Office 365 you pay for all the licenses you have obtained. In Microsoft 365 you pay by usage. They also have different Entra Plans:
+For this course the biggest differences we need to consider is: in Office 365 you pay for all the licenses you have purchased wether they are assigned/in user or not. In Microsoft 365 you pay by usage.
+
+They also have different Entra Plans:
 - Plan 1 (E3)
 - Plan 2 (E5)
 
-#### Key Differences Between Entra Plan 1 and Plan 2
+#### Key Differences Between Entra Plan 1 & Plan 2
 
 The key differences between **Microsoft Entra Plan 1 (formerly Azure Active Directory P1)** and **Microsoft Entra Plan 2 (formerly Azure Active Directory P2)** primarily revolve around the advanced features and capabilities they offer. Here's a comparison:
 
@@ -43,52 +50,58 @@ The key differences between **Microsoft Entra Plan 1 (formerly Azure Active Dire
 
 **Entra Plan 2**, on the other hand, is designed for organizations with more advanced security needs and regulatory requirements. It includes all the features of Plan 1, plus additional capabilities like identity protection, risk-based conditional access, privileged identity management, access reviews, application insights, and comprehensive audit logs.
 
+#### Useful links
+[Microsoft product name changes 📎](https://m365maps.com/renames.htm)
 
-To help with ever chaining Microsoft ecosystem there is a place where name changes are published. In the exam the newest branding should always be used which for those experienced may struggle with if they are not fully up to date with name changes.
+[Differences between Microsoft 365 Apps for Enterprise and Office 2019 📎](https://learn.microsoft.com/en-us/archive/technet-wiki/52127.office-365-proplus-and-office-2019-comparison)
 
-Microsoft product name changes: https://m365maps.com/renames.htm
 
-There is also a useful link here that describes the differences between Microsoft 365 Apps for Enterprise and Office 2019: https://learn.microsoft.com/en-us/archive/technet-wiki/52127.office-365-proplus-and-office-2019-comparison
+### What is a Domain Controller (DC)?
 
-**Entra**
+In it's rawest form it is:
+- A Database
+- A important folder called (SYSVOL)
 
-Domain controller
-
-AD Database
-SYSVOL folder
-
+It is responsible for the 5 A's:
 - Authentication
 - Authorization
 - Accounting
 - Auditing
 - Administration
 
-user@domain.com is a UPN - User Principal Name: They can look like email addresses but only become so if linked to exchange
+Strictly speaking user@domain.com is a UPN (User Principal Name) Although they look like email addresses they can only be considered as one if if linked to exchange (or another mail service provider)
 
-SIP - Session initiation protocol
+#### Some Acronyms and buzz words that can come up
+- **UPN:** User Principal Name - e.g. user@domain.com - *Note this looks like an email address but can only truly can be considered so if it is linked to exchange or another mail service provider*
+- **SIP:** Session initiation protocol - A signaling protocol used for initiating, maintaining, and terminating communication sessions
+- **DNS** Domain Name System - A server that translates domain names (like example.com) into IP addresses (like 192.0.2.1), making it possible for devices to find and communicate with each other, both on the internet and within private networks.
+- **DMZ** Demilitarized Zone: a secure network segment that acts as a buffer between a private internal network and the untrusted external network (like the internet). It hosts public-facing services while keeping the internal network protected.
+- **Win32 apps:** An application that is designed to run on the Windows operating system using the Win32 API.
 
-In on prem you can have .local, .intranet etc domain which are not globally routable. in Entra we need to use globally routable domains (.com, .edu etc...)
+In a on-prem only domain you can have internal top level domains (TLD) *.local, .intranet etc...* These domains are not globally routable (if you were yo use a .local name outside of the on-premise ecosystem it would not resolve back to your intend address). In Entra we must use globally routable domains (.com, .edu, .co.uk, .org etc...)
 
-DNS - Dynamic naming server 
+In traditional on-prem only setups we would have a DNS server on the DC which would be used to resolve internal domain addresses internal and then another DNS server in the DMZ to resolve external names.
 
-In the old world we used to have DNS on the DC for internal and then DNS in DMZ to resolve external names
-When shifting to using globally routed the two DNS servers. which will respond with different names. This is Split DNS, Slit Horizon or Split Brain DNS.
+When shifting to a hybrid cloud model every effort to eliminate local domains should be made. We then end up in a state where the Internal DNS can route private traffic and the DMS DNS server Routing public traffic using the same routable names. This is known as Split Brain/Horizon DNS.
 
+![Split DNS](Screenshots/Day1/Entra4.PNG)
 
-When going hybrid you should look to get rid of local domains.
+In Active Directory (AD) the authentication services are:
+- Kerberos
+- NTLM (NT LAN Manager)
 
-Kerberos, NTLM are authentication methods on Active Directory the default session validation length is 10 hours
 In Entra we have different protocols for authentication:
-- SAML
-- Oauth
-- OpenID
-- WS-Federation
+- SAML (Security Assertion Markup Language)
+- OAuth
+- OIDC (OpenID Connect)
+- WS-Fed (Web Services Federation)
 
-The reason we have so many different protocols is because of the way cloud distributes the data.
+The reason we have so many different protocols in Entra is because of the way cloud distributes the data and services.
 
+### Entra ID Concepts
 - Identity: An object that can be authenticated
 - Account: And identity that has data associated with it
-- An identity created through Microsoft Entra ID or another Microsoft cloud service
+- Microsoft Entra ID account: An identity created through Microsoft Entra ID or another Microsoft cloud service
 - Tenant/directory: A dedicated and trusted instance. A tenant is automatically created when your organisation signs up for Microsoft cloud service subscription
   - Additional instances can be created
   - Microsoft Entra ID is the underlying product providing identity services
@@ -96,83 +109,118 @@ The reason we have so many different protocols is because of the way cloud distr
   - The terms Tenant and Directory are often used interchangeably
 - Azure Subscription: Used to pay for Azure cloud services
 
-Entra ID includes Federation Services and many third party services such as Facebook, Apple etc.
+### Compare Entra ID (EidDS) to Active Directory Domain Services (ADDS)
+- Entra Id is primarily an identity solution
+- Queried using REST APIs over HTTP and HTTPS
+- Uses HTTP/S protocols such as SAML, WS-Fed and OpenID Connect for authentication (and OAuth for authorisation)
+- Includes federation service, and many third-party services (such as Facebook, Apple etc.).
+- Entra ID users and groups are created in a flat structure, and there are no Organisational units (OUs) or Group Policy Objects (GPOs).
 
-**ADDS  - Active Directory Domain Services**
-**EidDS - EntraID Domain Service**
+> That last point means little to somone who has not managed Active Directory or worked with it before. Details on what it actually means:
+> #### Flat Structure in Entra ID
+> In Entra ID (formerly known as Azure AD), **users and groups are organized in a flat structure**. This means that:
+> - **No Hierarchy**: There's no nested hierarchy like in traditional on-premises Active Directory (AD). All users and groups are on the same level, kind of like files in a single folder.
+> - **Simplified Management**: This flat structure simplifies user and group management but might require more creative ways to structure permissions and policies.
+>
+> #### No Organizational Units (OUs)
+> - **Organizational Units (OUs)**: In traditional AD, OUs are used to create a hierarchical structure for organizing users, groups, and computers. They can be nested and are helpful for applying policies and delegating administrative control.
+> - **Entra ID**: Does not use OUs. All users and groups exist in a single, flat namespace, without sub-containers or child objects.
+>
+> #### No Group Policy Objects (GPOs)
+> - **Group Policy Objects (GPOs)**: In traditional AD, GPOs are used to apply specific configurations and policies to users and computers within OUs.
+> - **Entra ID**: Does not use GPOs. Instead, configuration and policies are managed through **Intune** and **Conditional Access Policies**.
 
-AD = On Prem
-EntraID = On Cloud
-Hybrid = Entra Connect to sync between AD and EntraID
-EntraId Domain Services = For apps that need legacy protocols but want to use cloud (this is PaaS)
+So we have:
+- Active Directory (AD) And Active Directory Domain Services: For on prem.
+- EntraID = Cloud Only
+- AD & EntraID Connected via **Entra Connect** for syncing between the two: Hybrid
+- EntraId Domain Services = Cloud that needs to support apps that depend on legacy protocols (EIDDS is a PaaS)
 
-https://www.apps4rent.com/azure-active-directory-pricing.html
+### Entra Billing and Some of it's concepts
+[Entra ID Pricing 📎](https://www.apps4rent.com/azure-active-directory-pricing.html)
 
-Delegate group creation permissions, this allows you to have security groups to alow or disable the options for example allowing a group of manages to create teams channels but others to not be able to do this.
 
-Dynamic Group Creation - Allows us to create groups that are based on rules rather than manually managed. Be this users or things like devices. For example you could have a registered devices group for Android and another ofr Apple. You can drive this dynamically to help with intune management.
+Delegate Group Creation Permissions: This allows you to assign a permissions to a security groups that can grant or deny Users the ability to create and maintain their own security groups, this lightens the administrative tasks on network admins.
 
-Conditional Access Policies - Rules in which Users, Devices or Applications have to be satisfies to be able to connect.
+Dynamic Group Creation - Allows you to create groups that are based on rules rather than being manually managed. these can be groups of users, devices or service principals. For example you could have a registered devices group for Android and another ofr Apple. You can drive this dynamically to help with intune management or a all managers group that uses a tag on the users account.
 
-Identity Protection and Governance Features are only in EntraId Option 2
+Conditional Access Policies - Rules in which Users, Devices or Applications have to satisfy to be able to connect.
+
+Identity Protection and Governance Features **only in EntraId Plan 2**
 This includes:
-- Conditional Access Policies for Risks: Behavioral rule customisation, for example you can have rules like if user has moved locations from outside of the norm like login attempt in UK, then Paris then New York you can pick at which point to fire the additional check, or you can have IP range checks and many other options.
-- Entitlement Management: Design workflows to decide what happens after x amount of time/promotion of users
-- Privileged Identity Management (PIM): Eligible users can activate certain roles for x time rather than just being Admins off the bat.
-- Access Reviewing: Snapshot of our organisation (usually monthly), helps for monitoring of user's behavior, access and a lot of other options to help with maintenance of roles, groups etc.
+- Conditional Access Policies for Risks: Behavioral rule customisation, for example you can have rules like if user has moved locations from outside of the norm for example they have login attempt in UK, then Paris then New York in quick sucession you can pick at which point to fire the additional security check via MFA or take other actions, or you can have IP range checks and many other options.
+- Entitlement Management: Design workflows to decide what happens after x amount of time/promotion of users.
+- Privileged Identity Management (PIM): Eligible users can activate certain elevated roles for x amount of time rather than these users being permanently on elevated ids. *A similar concept to how we run things as administrator and have to fill in the box before we can run our task and once it finishes we're back to normal*
+- Access Reviewing: User, Device and Application Snapshot of our organisation (usually monthly), helps for monitoring of user's behavior, access and a lot of other options to help with maintenance of roles, groups and threat spotting.
 
-Win32 apps - a application that is designed to run on the Windows operating system using the Win32 API.
+### Configure Device Entities
+#### Registered Devices
+- Supports Bring Your Own Device
+- Registered devices sign-in using a Microsoft account
+- Attached to an account granting access to resources
+- Control using Mobile Device Management (MDM) tools like Microsoft Intune
+- OS - Windows 10+, iOS, Android and MacOS
+#### Joined devices
+- Intended for cloud-first or cloud-only organisations
+- Organisation owned devices
+- Joined only to Azure - organisation account required
+- Can use Conditional Access Policies
+- OS - Windows 10+ devices
+#### Hybrid Joined Devices
+- You have Win32 apps deployed to these devices
+- You want to continue to use Group Policy to manage the device
+- You want to use existing image solutions to deploy services
+- OS - Windows 7+ devices
 
-**Configure Device Identities**
-- Registered devices
-  - Supports bring your own device
-  - Registered devices sign-in using a Microsoft account
-- Joined devices
-  - Intended for cloud-first or cloud-only organisations
-  - Organisation owned devices
-  - Joined only to Azure - organisation account required
-  - Can use conditional access policies
-  - Windows 10+ devices
-- Hybrid joined devices
-  - You have Win32 apps deployed to these devices
-  - You want to continue to use Group Policy to manage the device
-  - You want to use existing image solutions to deploy services
-  - Windows 7+ devices
+![Configure Device Identities](Screenshots/Day1/Entra11.PNG)
 
-**Self-Service Password Reset (SSPR)**
-Microsoft now recommends having passwords that never expire: This is because studies have shown that enforcing this rule actually results in weaker passwords. Using things like MFA and conditional access firm things up a lot more. This needs P1 or P2.
+### Implement Self-Service Password Reset (SSPR)
+Microsoft now recommends having passwords that never expire: This is because studies have shown that enforcing the password expires after x days rule actually results in weaker passwords. Using things like Multi Factor Authentication (MFA) and Conditional Access Policy are far more robust and mean that expiring passwords is a lot less necessary. You need to be On Entra ID  Plan 1 (P1) or Plan 2 (P2) to access the SSPR feature.
 
+#### Steps
 1. Determine who can use self-service password reset
 2. Chose the number of authentication methods required and the methods available (email, phone, questions etc.)
-3. You can require users to register for SSPR (same process as MFA)
+3. You can make it so users are required to register for SSPR before continuing (same process as with MFA)
+
+![Implement Self-Service Password Reset](Screenshots/Day1/Entra12.PNG)
 
 ### Configure User and Group Accounts
-**Users**
-- All users must have and account
+#### Create User Accounts
+- All users must have an account
 - The account is used for authentication and authorization
 - Each users account has additional properties
 
-Manage User Accounts
+![Create User Accounts](Screenshots/Day1/Entra13.PNG)
+
+#### Manage User Accounts
 - Must be Global Administrator or User Administrator to manage users
 - User Profile (Picture, job, contact info) is optional
 - Deleted users can be restored for 30 days
 - Sign in and audit log information is available
 
+![Manage User Accounts](Screenshots/Day1/Entra14.PNG)
 
-*Powershell*
+#### Performing Bulk Account Updates
 
-- Get MsolUser - Microsoft 365 Users^
-- Get-AZADUser - Users in Azure^
-- Get-AzureADUser - EntraId^
+- Supports bulk user and group member updates
+- Create a comma-separated values (CSV) template you can download from the portal.
+- Must be a Global Administrator or User Administrator
+
+![Performing Bulk Account Updates](Screenshots/Day1/Entra15.PNG)
+
+#### Get User PowerShell
+- Get MsolUser - Microsoft 365 Users<sup>*</sup>
+- Get-AZADUser - Users in Azure<sup>*</sup>
+- Get-AzureADUser - EntraId<sup>*</sup>
 - Get-MGUser - MG Graph (recommended for user functions going forward)
 
-  ^Deprecated
+<sup>*</sup>Deprecated
 
-All of these methods use a different way of managing the passing of the password to the command
+*Note: All of these methods use different way's of managing the passing of the password to the command.*
 
-**AZ-040 (Powershell course)**
+[If you want to learn more about PowerShell in Azure check the course material for **AZ-040 - Automating Administration with PowerShell**](https://learn.microsoft.com/en-us/training/courses/az-040t00)
 
-**Create Group Accounts**
+#### Create Group Accounts
 Group Types:
 - Security groups
 - Microsoft 365 groups
@@ -182,39 +230,71 @@ Assignment Types:
 - Dynamic Users
 - Dynamic Device (security groups only)
 
-On prem security groups
-- Domain Local Groups: Groups resources
-- Global Groups: Groups Users and devices
-- Universal Groups
+![Create Group Accounts](Screenshots/Day1/Entra16.PNG)
 
-On prem:
-Account > Global Group > Domain Local > Permission
+#### On Prem Group to Entra Group Translation
 
-Entra:
-Identity > Groups > Sharepoint/Teams Groups > Access control
+#### On-prem Groups
+- **Global Groups:** Groups users and devices, and can be used in any domain within the forest for assigning permissions.
+- **Domain Local Groups:** Group resources (like files, printers) within a single domain, and assign permissions to these groups.
+- **Universal Groups:** Combine users, devices, and resources across all domains in a forest, useful for assigning permissions throughout the forest.
 
-**Assign Licenses to Users and Groups**
+#### Entra ID Groups
+- **Security Groups**: Similar to Global Groups and Domain Local Groups, these are used to manage access to resources and applications.
+- **Microsoft 365 Groups**: Similar to Universal Groups, these are used for collaboration purposes, integrating with services like Microsoft Teams, SharePoint, and Outlook.
 
-**Create Administrative Units**
+#### User Permission Models
+> **On-prem**
+> 
+> Account > Global Group > Domain Local > Permission
 
-**Entra ID Connect**
-Used for connecting (Syncing) AD with Entra ID
+> **Entra Id**
+> 
+> Identity > Groups > Sharepoint/Teams Groups > Access Control
+
+### Assign Licenses to Users and Groups
+#### Azure is a cloud service that provides many built-in services for free:
+- Microsoft Entra ID comes as a free service
+- Gain additional functionality with a P1 or P2 license
+
+#### Additional Services (Like O365 are paid cloud services):
+- Microsoft paid cloud services require licenses
+- Licenses are assigned to those who need access to the services
+- Each user or group requires a separate paid license
+- Administrators use management portals and PowerShell cmdlets to manage licenses
+
+### Administrative Units
+An **administrative unit** in Microsoft Entra ID is a container for organizing users, groups, or devices within your organization. It allows you to **delegate administrative permissions** to specific users or groups for managing only the members within that unit. This helps in restricting permissions and simplifying management, especially in large organizations with multiple divisions or regions.
+
+For example, you could create an administrative unit for the "Marketing" department and assign a regional support specialist to manage users only in that department.
+#### Steps To create Administrative Units
+1. Create an administrative unit
+2. Populate the administrative unit with users or groups
+3. Create a role whi appropriate permissions scoped to the administrative unit
+4. Add IT members to the role
+
+*You got to here when reviewing your notes*
+### Entra ID Connect
+![Entra ID Connect](Screenshots/Day1/Entra21.PNG)
+Entra ID Connect is used for connecting (Syncing) AD with Entra ID
 You can install it on a domain controller but it is not recommended, you should use a different app server for it.
 
-On prem AD is the driver of this and it generally it works on a 30 min sync (you can force it in powershell).
+On-prem instance of Active Directory is considered the 'master' and it generally works on a 30 min sync (you can force a sync via PowerShell).
 
 AD is a repository of classes and attributes.
 
-If certain things occur where AD does not have a schema for a app but they do exist in Entra you can get issues where you can't push attributes that are not in AD. You can push them via powershell scripts
+If certain things occur where AD does not have a schema for a app but they do exist in Entra you can get issues where you can't push attributes that are not in AD. These can be pushed to Entra via PowerShell scripts
 
-Password policies can differ between to two:
-**Password Hash Synchronization (PHS)** is the option that alow the sync of these. Default config is to have this on. This sync is within 2 mins.
+#### Authenticating Users connection via Entra
+In a hybrid scenario it is possible password policies can differ between AD and Entra Id:
 
-P1 you can enable password writeback, this means you can enable PSSR on Entra and write it back to the local AD.
-Group and device writeback are also in P1.
+**Password Hash Synchronization (PHS)** is the option that alow the sync of passwords. The default config is to have this enabled. Password hash sync is within 2 mins.
 
-P2 contains Entra Identity Protection which also includes leaked credentials. It scans parts of the web to see if any compromised password hashes you will be notified.
+If you are on Entra Id Plan 1 you can enable password writeback. This means you can enable PSSR on Entra and write the password changes back to on-prem AD. Groups and devices can also be written back as part of the writeback options in Plan 1.
 
+Entra Id Plan 1 also contains Entra Identity Protection which includes a feature called Leaked Credentials. This feature takes the Password hashes it has for users and 'scans' multiple dubious sites and databases to see if any password hashes have been compromised.
+
+*You got to here when reviewing your notes*
 **Passthrough Authentication (PTA)**
 This means only Entra ID is used stored in the sync. An agent will be installed in the local AD (minimum of 3 is recommended). When a user wants to sign in they credentials end up on a secure Entra queue a secure connection is obtained between Entra and the Entra-agent and it then authenticates them.
 
